@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card p-4 mb-4">
+      <h4>Quote Summary</h4>
+      <div class="row mt-3">
+        <div class="col-md-6">
+          <p><strong>Customer:</strong> {{ customer.Name }} <code>({{ customer.CustomerID }})</code></p>
+          <p><strong>Age:</strong> {{ customer.age or 'N/A' }}</p>
+          <p><strong>State:</strong> {{ customer.StateCode }}</p>
+          <p><strong>Employer:</strong> {{ account.AccountName }}</p>
+          <p><strong>Benefit Type:</strong> {{ benefit_type }}</p>
+        </div>
+        <div class="col-md-6">
+          <h6>Health Risk Scores <small class="text-muted">({{ score.ScoringModel }})</small></h6>
+          {% set risks = [
+            ('Diabetes',       score.DiabetesRisk),
+            ('Cardiovascular', score.CardioRisk),
+            ('Obesity',        score.ObesityRisk),
+            ('Respiratory',    score.RespiratoryRisk),
+          ] %}
+          {% for label, val in risks %}
+            {% set pct = (val | float * 100) | round(1) %}
+            <div class="mb-1 d-flex justify-content-between">
+              <span>{{ label }}</span>
+              <span class="{% if val|float > 0.70 %}risk-high{% elif val|float > 0.50 %}risk-mid{% else %}risk-low{% endif %}">
+                {{ pct }}%
+              </span>
+            </div>
+            <div class="progress mb-2" style="height:6px">
+              <div class="progress-bar {% if val|float > 0.70 %}bg-danger{% elif val|float > 0.50 %}bg-warning{% else %}bg-success{% endif %}"
+                   style="width:{{ pct }}%"></div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-4 mb-4">
+      <h5>Premium Calculation</h5>
+      <table class="table table-sm">
+        <tr><td>Base Monthly Premium</td><td class="text-end">${{ '%.2f' % base }}</td></tr>
+        {% for label, val in flags %}
+        <tr class="text-danger">
+          <td>{{ label }} Risk Surcharge</td>
+          <td class="text-end">+ {{ (val * 100)|round(1) }}% flag</td>
+        </tr>
+        {% endfor %}
+        <tr class="fw-bold border-top">
+          <td>Total Surcharge Applied</td>
+          <td class="text-end">{{ (surcharge * 100)|round(1) }}%</td>
+        </tr>
+        <tr class="fw-bold fs-5">
+          <td>Adjusted Monthly Premium</td>
+          <td class="text-end text-primary">${{ '%.2f' % final_premium }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card p-4">
+      <form method="POST" action="/issue">
+        {{ form.hidden_tag() }}
+        {{ form.customer_id() }}{{ form.account_id() }}{{ form.company_code() }}
+        {{ form.benefit_type() }}{{ form.premium() }}
+        <div class="d-flex gap-3">
+          {{ form.submit(class='btn btn-success btn-lg flex-fill') }}
+          <a href="/quote" class="btn btn-outline-secondary btn-lg flex-fill">Decline & Save</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

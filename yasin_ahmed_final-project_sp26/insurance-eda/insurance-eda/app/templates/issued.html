@@ -1,0 +1,24 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6 text-center">
+    <div class="card p-5">
+      <div style="font-size:3rem">✅</div>
+      <h3 class="mt-3">Policy Issued Successfully</h3>
+      <hr>
+      <table class="table text-start">
+        <tr><th>Customer</th><td>{{ customer.Name }}</td></tr>
+        <tr><th>Customer ID</th><td><code>{{ customer.CustomerID }}</code></td></tr>
+        <tr><th>Contract ID</th><td><code>{{ contract.ContractID }}</code></td></tr>
+        <tr><th>Benefit ID</th><td><code>{{ benefit.BenefitID }}</code></td></tr>
+        <tr><th>Benefit Type</th><td>{{ benefit.BenefitType }}</td></tr>
+        <tr><th>Monthly Premium</th><td><strong>${{ '%.2f' % premium.Amount }}</strong></td></tr>
+        <tr><th>Effective Date</th><td>{{ contract.StartDate }}</td></tr>
+      </table>
+      <a href="/quote" class="btn btn-primary mt-2">New Quote</a>
+      <a href="/" class="btn btn-outline-secondary mt-2">Dashboard</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

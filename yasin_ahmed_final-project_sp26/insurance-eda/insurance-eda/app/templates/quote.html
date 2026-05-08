@@ -1,0 +1,36 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card p-4">
+      <h4 class="mb-3">Request an Insurance Quote</h4>
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        <h6 class="text-muted mt-2 mb-3">Customer Information</h6>
+        <div class="mb-3">
+          {{ form.customer_id.label(class='form-label') }}
+          {{ form.customer_id(class='form-control', placeholder='e.g. C-DEMO01') }}
+          <div class="form-text">Use C-DEMO01, C-DEMO02, C-DEMO03, or C-DEMO04 for demo customers.</div>
+        </div>
+        <p class="text-muted small">— or create a new customer below —</p>
+        <div class="row g-2">
+          <div class="col-md-6 mb-2">{{ form.name.label(class='form-label') }}{{ form.name(class='form-control') }}</div>
+          <div class="col-md-6 mb-2">{{ form.dob.label(class='form-label') }}{{ form.dob(class='form-control') }}</div>
+          <div class="col-md-4 mb-2">{{ form.gender.label(class='form-label') }}{{ form.gender(class='form-select') }}</div>
+          <div class="col-md-4 mb-2">{{ form.state_code.label(class='form-label') }}{{ form.state_code(class='form-select') }}</div>
+          <div class="col-md-4 mb-2">{{ form.zip_code.label(class='form-label') }}{{ form.zip_code(class='form-control') }}</div>
+        </div>
+        <hr>
+        <h6 class="text-muted mb-3">Policy Details</h6>
+        <div class="row g-2">
+          <div class="col-md-4 mb-2">{{ form.account_id.label(class='form-label') }}{{ form.account_id(class='form-control', placeholder='ACC-001') }}</div>
+          <div class="col-md-4 mb-2">{{ form.company_code.label(class='form-label') }}{{ form.company_code(class='form-control', placeholder='COL') }}</div>
+          <div class="col-md-4 mb-2">{{ form.benefit_type.label(class='form-label') }}{{ form.benefit_type(class='form-select') }}</div>
+        </div>
+        <div class="mt-3">{{ form.submit(class='btn btn-primary w-100') }}</div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

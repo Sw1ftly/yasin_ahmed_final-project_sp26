@@ -1,0 +1,47 @@
+"""
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Dashboard</h2>
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title">Customers</h5>
+      <table class="table table-sm table-hover">
+        <thead><tr><th>ID</th><th>Name</th><th>State</th><th>DOB</th></tr></thead>
+        <tbody>
+          {% for c in customers %}
+          <tr>
+            <td><code>{{ c.CustomerID }}</code></td>
+            <td>{{ c.Name }}</td>
+            <td>{{ c.StateCode }}</td>
+            <td>{{ c.DateOfBirth }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card p-4">
+      <h5 class="card-title">Accounts</h5>
+      <table class="table table-sm table-hover">
+        <thead><tr><th>ID</th><th>Code</th><th>Name</th><th>Status</th></tr></thead>
+        <tbody>
+          {% for a in accounts %}
+          <tr>
+            <td><code>{{ a.AccountID }}</code></td>
+            <td>{{ a.CompanyCode }}</td>
+            <td>{{ a.AccountName }}</td>
+            <td><span class="badge bg-success">{{ a.Status }}</span></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div class="mt-4 text-center">
+  <a href="/quote" class="btn btn-primary btn-lg">Get a Quote →</a>
+</div>
+{% endblock %}
+"""
